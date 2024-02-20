@@ -78,7 +78,25 @@ function nextSong() {
     playSong();
 }
 
+// Barra de progresso da música
+function updateProgress(e) {
+    const {duration, currentTime} = e.srcElement;
+    const progressPercent = (currentTime / duration) * 100;
+    progress.style.width = progressPercent + "%";
+}
+
+// Altera o progresso da música conforme click na barra de progresso desta
+function setProgress(e) {
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audio.duration;
+
+    audio.currentTime = (clickX / width) * duration;
+}
+
 // Event Lisneters
 playBtn.addEventListener("click",playOrPause);
 prevBtn.addEventListener("click", prevSong);
 nextBtn.addEventListener("click", nextSong);
+audio.addEventListener("timeupdate", updateProgress);
+progressContainer.addEventListener("click", setProgress);
